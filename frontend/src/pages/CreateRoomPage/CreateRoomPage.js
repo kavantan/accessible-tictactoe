@@ -67,8 +67,8 @@ const CreateRoomPage = ({ socket }) => {
           <button
             className={
               copied
-                ? `${styles["copy-button"]} ${styles["copied"]}`
-                : styles["copy-button"]
+                ? `${styles["copy-btn"]} ${styles["copied"]}`
+                : styles["copy-btn"]
             }
             onClick={copyText}
             title="Copy Room ID"
@@ -81,9 +81,9 @@ const CreateRoomPage = ({ socket }) => {
         </div>
         <div className={styles["go-to-game"]}>
           <Link to={`/game/${roomId}`}>
-            <button className={styles["play-button"]} aria-label="Play Game">
+            <button className={styles["room-btn"]} aria-label="Play Game">
               Play Game
-            </button>{" "}
+            </button>
           </Link>
         </div>
       </div>

@@ -59,8 +59,8 @@ const JoinRoom = ({ socket }) => {
             </p>
           ) : null}
 
-          <label htmlFor="room-id" className={styles["label"]}>
-            Enter room ID:
+          <label htmlFor="room-id" className={styles["url-label"]}>
+            Room ID:
           </label>
           <input
             id="room-id"

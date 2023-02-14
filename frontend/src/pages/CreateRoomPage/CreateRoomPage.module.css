@@ -19,6 +19,14 @@
   margin-bottom: 2rem;
 }
 
+.url-label {
+  font-size: 2rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .name-input {
   font-size: 1rem;
   padding: 0.5rem;
