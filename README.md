@@ -24,6 +24,9 @@ To Visit App:
 
 `localhost:3000/`
 
+You should see something like this:
+[Ui](docs/images/Ui.png)
+
 ### Server Side
 
 Switch to Server Side (backend) Directory:
@@ -37,6 +40,9 @@ Installation:
 To Start Server:
 
 `npm start`
+
+You should see something like this:
+[Server](docs/images/Server.png)
 
 ## Design Decisions
 
