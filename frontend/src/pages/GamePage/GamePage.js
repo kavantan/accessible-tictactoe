@@ -408,7 +408,9 @@ const GamePage = ({ socket }) => {
           role="status"
           aria-live="polite"
           aria-label="Waiting for opponent's response"
-        ></div>
+        >
+          Waiting for opponent's response
+        </div>
       ) : null}
 
       {gameEnd ? (
