@@ -6,26 +6,22 @@ const JoinRoomPage = () => {
 
   return (
     <div>
-      <h1>Join Room</h1>
-      <div>
-        <label>Enter your name:</label>
-        <textarea
+      <h1>Join A Room</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
           placeholder="Your Name"
-          onChange={(event) => {
-            setUserName(event.target.value);
-          }}
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
         />
-      </div>
-      <div>
-        <label>Enter custom room name:</label>
-        <textarea
-          placeholder="Custom Room Name"
-          onChange={(event) => {
-            setRoomName(event.target.value);
-          }}
+        <input
+          type="text"
+          placeholder="Room Name"
+          value={roomName}
+          onChange={(e) => setRoomName(e.target.value)}
         />
-      </div>
-      <button>Join Room</button>
+        <button>Join Room</button>
+      </form>
     </div>
   );
 };
