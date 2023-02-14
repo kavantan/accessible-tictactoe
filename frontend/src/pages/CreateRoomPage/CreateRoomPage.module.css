@@ -1,0 +1,121 @@
+.create-room-header {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.create-room-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.url-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.name-input {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+  width: 15rem;
+}
+
+.url-input {
+  border: none;
+  background-color: #f2f2f2;
+  color: #333;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+  width: 15rem;
+}
+
+.copy-btn {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  background-color: #3e8e41;
+}
+
+.copy-btn:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.copy-btn:active {
+  background-color: #1b5e20;
+}
+
+.copy-btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.copy-btn.copied {
+  background-color: #2196f3;
+}
+
+.copy-btn.copied:hover {
+  background-color: #0d47a1;
+}
+
+.copy-btn.copied:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.copy-btn.copied:active {
+  background-color: #0d47a1;
+}
+
+.room-btn {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.room-btn:hover {
+  background-color: #0d47a1;
+}
+
+.room-btn:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.room-btn:active {
+  background-color: #0d47a1;
+}
+
+a {
+  color: #2196f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}

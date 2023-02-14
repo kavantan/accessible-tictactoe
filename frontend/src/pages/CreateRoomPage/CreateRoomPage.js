@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "./CreateRoomPage.css";
+import styles from "./CreateRoomPage.module.css";
 
 const roomId = nanoid(7);
 
@@ -50,28 +50,29 @@ const CreateRoom = ({ socket }) => {
 
   return (
     <div>
-      <h1>Create Room</h1>
-      <div className="create-room-container">
-        <div className="url-container">
+      <h1 className={styles["create-room-header"]}>Create Room</h1>
+      <div className={styles["create-room-container"]}>
+        <div className={styles["url-container"]}>
           <input
             value={roomId}
-            className="name-input url-input"
+            className={`${styles["name-input"]} ${styles["url-input"]}`}
             type="text"
             disabled={true}
           />
           <button
             className={
-              copied ? `room-btn copy-btn copied` : `room-btn copy-btn`
+              copied
+                ? `${styles["room-btn"]} ${styles["copy-btn"]} ${styles["copied"]}`
+                : `${styles["room-btn"]} ${styles["copy-btn"]}`
             }
             onClick={copyText}
           >
             {copyBtnValue}
           </button>
         </div>
-        <div className="go-to-game">
+        <div className={styles["go-to-game"]}>
           <Link to={`/game/${roomId}`}>
-            {" "}
-            <button className="room-btn">Play Game</button>{" "}
+            <button className={`${styles["room-btn"]}`}>Play Game</button>{" "}
           </Link>
         </div>
       </div>
