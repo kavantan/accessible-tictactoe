@@ -12,14 +12,14 @@
 }
 
 .roomid {
-  background-color: #fff;
-  background-size: auto;
+  color: #d0cac0;
   font-size: bold;
 }
 
 h2 {
   font-size: 2.5rem;
   margin-bottom: 0;
+  color: #d0cac0;
 }
 
 /* styles for score */
@@ -33,14 +33,12 @@ h2 {
 }
 
 .myscore {
-  background-color: #fff;
-  background-size: auto;
+  color: #d0cac0;
   font-size: bold;
 }
 
 .opponentscore {
-  background-color: #fff;
-  background-size: auto;
+  color: #d0cac0;
   font-size: bold;
 }
 

@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #d0cac0;
 }
 
 .copy-btn {
@@ -28,6 +29,7 @@
 .join-room-header {
   font-size: 2rem;
   margin-bottom: 1rem;
+  color: #d0cac0;
 }
 
 .join-room-container {
