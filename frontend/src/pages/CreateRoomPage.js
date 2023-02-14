@@ -1,33 +1,82 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { nanoid } from "nanoid";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import "./CreateRoomPage.css";
 
-import io from "socket.io-client";
-const socket = io("http://localhost:4000");
+const roomId = nanoid(7);
 
-const CreateRoomPage = () => {
-  const [userName, setUserName] = useState("");
-  const [roomName, setRoomName] = useState("");
+const CreateRoom = ({ socket }) => {
+  const { user } = useSelector((state) => state.user);
+
+  const [copyBtnValue, setCopyBtnValue] = useState("Copy");
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!user) {
+      window.location.href = "/";
+    }
+  });
+
+  useEffect(() => {
+    socket.emit("joinRoom", {
+      username: user.userName,
+      userId: user.userId,
+      roomId,
+    });
+  }, [socket, user.userId, user.userName]);
+
+  useEffect(() => {
+    socket.on("message", (payload) => {
+      console.log(payload);
+    });
+
+    socket.on("message", (message) => {
+      console.log(message);
+    });
+  });
+
+  function copyText() {
+    navigator.clipboard.writeText(roomId);
+
+    setCopyBtnValue("Copied");
+    setCopied(true);
+
+    setInterval(() => {
+      setCopyBtnValue("Copy");
+      setCopied(false);
+    }, 3000);
+  }
 
   return (
     <div>
-      <h1>Create A Room</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Your Name"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Room Name"
-          value={roomName}
-          onChange={(e) => setRoomName(e.target.value)}
-        />
-        <button>Create Room</button>
-      </form>
+      <h1>Create Room</h1>
+      <div className="create-room-container">
+        <div className="url-container">
+          <input
+            value={roomId}
+            className="name-input url-input"
+            type="text"
+            disabled={true}
+          />
+          <button
+            className={
+              copied ? `room-btn copy-btn copied` : `room-btn copy-btn`
+            }
+            onClick={copyText}
+          >
+            {copyBtnValue}
+          </button>
+        </div>
+        <div className="go-to-game">
+          <Link to={`/game/${roomId}`}>
+            {" "}
+            <button className="room-btn">Play Game</button>{" "}
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default CreateRoomPage;
+export default CreateRoom;

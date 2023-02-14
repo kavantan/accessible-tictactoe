@@ -1,184 +1,339 @@
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./GamePage.css";
 
-import io from "socket.io-client";
-const socket = io("http://localhost:4000");
-
-function GamePage() {
-  const [game, setGame] = useState(Array(9).fill(""));
-  const [turnNumber, setTurnNumber] = useState(0);
-  const [myTurn, setMyTurn] = useState(true);
-  const [winner, setWinner] = useState(false);
-  const [xo, setXO] = useState("X");
-  const [player, setPlayer] = useState("");
-  const [hasOpponent, setHasOpponent] = useState(false);
-  const [share, setShare] = useState(false);
-  const [turnData, setTurnData] = useState(false);
-
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const paramsRoom = params.get("room");
-  const [room, setRoom] = useState(paramsRoom);
-
-  const turn = (index) => {
-    if (!game[index] && !winner && myTurn && hasOpponent) {
-      socket.emit("reqTurn", JSON.stringify({ index, value: xo, room }));
-    }
-  };
-
-  const sendRestart = () => {
-    socket.emit("reqRestart", JSON.stringify({ room }));
-  };
-
-  const restart = () => {
-    setGame(Array(9).fill(""));
-    setWinner(false);
-    setTurnNumber(0);
-    setMyTurn(false);
-  };
-
-  useEffect(() => {
-    combinations.forEach((c) => {
-      if (
-        game[c[0]] === game[c[1]] &&
-        game[c[0]] === game[c[2]] &&
-        game[c[0]] !== ""
-      ) {
-        setWinner(true);
-      }
-    });
-
-    if (turnNumber === 0) {
-      setMyTurn(xo === "X" ? true : false);
-    }
-  }, [game, turnNumber, xo]);
-
-  useEffect(() => {
-    socket.on("playerTurn", (json) => {
-      setTurnData(json);
-    });
-
-    socket.on("restart", () => {
-      restart();
-    });
-
-    socket.on("opponent_joined", () => {
-      setHasOpponent(true);
-      setShare(false);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (turnData) {
-      const data = JSON.parse(turnData);
-      let g = [...game];
-      if (!g[data.index] && !winner) {
-        g[data.index] = data.value;
-        setGame(g);
-        setTurnNumber(turnNumber + 1);
-        setTurnData(false);
-        setMyTurn(!myTurn);
-        setPlayer(data.value);
-      }
-    }
-  }, [turnData, game, turnNumber, winner, myTurn]);
-
-  useEffect(() => {
-    if (paramsRoom) {
-      // means you are player 2
-      setXO("O");
-      socket.emit("join", paramsRoom);
-      setRoom(paramsRoom);
-      setMyTurn(false);
-    } else {
-      // means you are player 1
-      const newRoomName = random();
-      socket.emit("create", newRoomName);
-      setRoom(newRoomName);
-      setMyTurn(true);
-    }
-  }, [paramsRoom]);
-
-  return (
-    <div className="container">
-      Room: {room}
-      <button className="btn" onClick={() => setShare(!share)}>
-        Share
-      </button>
-      {share ? (
-        <>
-          <br />
-          <br />
-          Share link:{" "}
-          <input
-            type="text"
-            value={`${window.location.href}?room=${room}`}
-            readOnly
-          />
-        </>
-      ) : null}
-      <br />
-      <br />
-      Turn: {myTurn ? "You" : "Opponent"}
-      <br />
-      {hasOpponent ? "" : "Waiting for opponent..."}
-      <p>
-        {winner || turnNumber === 9 ? (
-          <button className="btn" onClick={sendRestart}>
-            Restart
-          </button>
-        ) : null}
-        {winner ? (
-          <span>We have a winner: {player}</span>
-        ) : turnNumber === 9 ? (
-          <span>It's a tie!</span>
-        ) : (
-          <br />
-        )}
-      </p>
-      <div className="row">
-        <Box index={0} turn={turn} value={game[0]} />
-        <Box index={1} turn={turn} value={game[1]} />
-        <Box index={2} turn={turn} value={game[2]} />
-      </div>
-      <div className="row">
-        <Box index={3} turn={turn} value={game[3]} />
-        <Box index={4} turn={turn} value={game[4]} />
-        <Box index={5} turn={turn} value={game[5]} />
-      </div>
-      <div className="row">
-        <Box index={6} turn={turn} value={game[6]} />
-        <Box index={7} turn={turn} value={game[7]} />
-        <Box index={8} turn={turn} value={game[8]} />
-      </div>
-    </div>
-  );
-}
-
-const Box = ({ index, turn, value }) => {
-  return (
-    <div className="box" onClick={() => turn(index)}>
-      {value}
-    </div>
-  );
-};
-
-const combinations = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
+const moves = [
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
+  { move: -1, myMove: false },
 ];
 
-const random = () => {
-  return Array.from(Array(8), () =>
-    Math.floor(Math.random() * 36).toString(36)
-  ).join("");
+const GamePage = ({ socket }) => {
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      window.setTimeout(function () {
+        window.location = "/";
+        socket.emit("removeRoom", { roomId });
+      }, 0);
+      window.onbeforeunload = null;
+    };
+
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener("popstate", function (event) {
+      window.history.pushState(null, document.title, window.location.href);
+    });
+  });
+
+  const params = useParams();
+
+  const { user } = useSelector((state) => state.user);
+
+  const [roomId, setRoomId] = useState("");
+
+  const [loading, setLoading] = useState(true);
+
+  const [loadingValue, setLoadingValue] = useState(
+    "waiting for another player..."
+  );
+
+  const [userJoined, setUserJoined] = useState(false);
+
+  const [userTurn, setUserTurn] = useState(false);
+
+  const [oponentName, setOponentName] = useState("");
+
+  const [move, setMove] = useState();
+
+  const [allMoves, setAllMoves] = useState([]);
+
+  const [winner, setWinner] = useState("");
+  const [winnerId, setWinnerId] = useState("");
+
+  const [winPattern, setWinPattern] = useState([]);
+
+  const [gameEnd, setGameEnd] = useState(false);
+
+  const [leaveRoom, setLeaveRoom] = useState(false);
+
+  const [myScore, setMyScore] = useState(0);
+  const [oponentScore, setOponentScore] = useState(0);
+
+  useEffect(() => {
+    if (!user) {
+      window.location = "/";
+    }
+
+    socket.emit("usersEntered", { roomId: params.roomId, userId: user.userId });
+
+    socket.off("usersEntered").on("usersEntered", (data) => {
+      if (data.user1.userId !== user.userId) {
+        setOponentName(data.user1.username);
+      } else {
+        setOponentName(data.user2.username);
+      }
+      setLoading(false);
+      // console.log(data);
+    });
+  }, [socket, user, params.roomId]);
+
+  useEffect(() => {
+    setRoomId(params.roomId);
+    // console.log(params.roomId);
+  }, [params.roomId]);
+
+  const handleMoveClick = (m) => {
+    if (loading && !userJoined) {
+      return;
+    }
+
+    socket.emit("move", { move: m, roomId, userId: user.userId });
+
+    moves[m].move = 1;
+    moves[m].myMove = true;
+
+    setUserTurn(true);
+  };
+
+  const handlePlayAgain = () => {
+    socket.emit("reMatch", { roomId });
+  };
+
+  useEffect(() => {
+    socket.on("move", (payload) => {
+      // console.log(payload);
+      setMove({ move: payload.move, myMove: payload.userId === user.userId });
+      setAllMoves([...allMoves, move]);
+
+      moves[payload.move].move = 1;
+      moves[payload.move].myMove = payload.userId === user.userId;
+
+      if (payload.userId !== user.userId) {
+        setUserTurn(false);
+      }
+    });
+
+    socket.on("win", (payload) => {
+      // console.log("WINNER WINNER WINNER!!! ",payload);
+      setWinPattern(payload.pattern);
+      setGameEnd(true);
+      if (payload.userId === user.userId) {
+        setWinner("You won!");
+        setMyScore(myScore + 1);
+      } else {
+        setWinner(`You lost!, ${payload.username} won!`);
+        setOponentScore(oponentScore + 1);
+      }
+
+      setWinnerId(payload.userId);
+      setUserTurn(false);
+    });
+
+    socket.on("draw", (payload) => {
+      // console.log("DRAW DRAW DRAW!!! ",payload);
+      setWinner("Draw !");
+      setGameEnd(true);
+      setUserTurn(false);
+      setLoadingValue("");
+    });
+  });
+
+  useEffect(() => {
+    socket.on("reMatch", ({ currGameDetail }) => {
+      moves.forEach((m) => {
+        m.move = -1;
+        m.myMove = false;
+      });
+      setWinner("");
+
+      setUserTurn(user.userId !== winnerId);
+      setGameEnd(false);
+    });
+
+    socket.on("removeRoom", (payload) => {
+      // console.log("removeRoom",payload);
+      setUserJoined(false);
+      setLeaveRoom(true);
+    });
+  });
+
+  useEffect(() => {
+    socket.on("userLeave", (payload) => {
+      console.log("userLeave", payload);
+      setLoadingValue("");
+      setLoadingValue(`${oponentName} left the game`);
+      setLoading(true);
+      setUserJoined(false);
+    });
+  });
+
+  const handleClose = () => {
+    socket.emit("removeRoom", { roomId });
+    return true;
+  };
+
+  return (
+    <div className="game">
+      <h2>Tic Tac Toe</h2>
+      <p>Room ID: {roomId}</p>
+      <div className="score">
+        <p>You: {myScore}</p>
+        <p>
+          {oponentName}: {oponentScore}
+        </p>
+      </div>
+      {winner && winner !== "Draw !" && winner.length > 0 ? (
+        <div className="winner">
+          <h3>{winner}</h3>
+          <div className={` line p${winPattern} `}></div>
+        </div>
+      ) : null}
+
+      <div className="grid-container">
+        <div
+          onClick={
+            moves[1].move === -1 && !winner ? () => handleMoveClick(1) : null
+          }
+          className={
+            moves[1].move === -1
+              ? `grid-item-hover grid-item bottom right`
+              : `grid-item bottom right`
+          }
+        >
+          {moves[1].move !== -1 ? (moves[1].myMove ? "0" : "X") : null}
+        </div>
+
+        <div
+          onClick={
+            moves[2].move === -1 && !winner ? () => handleMoveClick(2) : null
+          }
+          className={
+            moves[2].move === -1
+              ? `grid-item-hover grid-item bottom right`
+              : "grid-item bottom right"
+          }
+        >
+          {moves[2].move !== -1 ? (moves[2].myMove ? "0" : "X") : null}
+        </div>
+
+        <div
+          onClick={
+            moves[3].move === -1 && !winner ? () => handleMoveClick(3) : null
+          }
+          className={
+            moves[3].move === -1
+              ? `grid-item-hover grid-item bottom`
+              : ` grid-item bottom`
+          }
+        >
+          {moves[3].move !== -1 ? (moves[3].myMove ? "0" : "X") : null}
+        </div>
+
+        <div
+          onClick={
+            moves[4].move === -1 && !winner ? () => handleMoveClick(4) : null
+          }
+          className={
+            moves[4].move === -1
+              ? `grid-item-hover grid-item bottom right`
+              : `grid-item bottom right`
+          }
+        >
+          {moves[4].move !== -1 ? (moves[4].myMove ? "0" : "X") : null}
+        </div>
+
+        <div
+          onClick={
+            moves[5].move === -1 && !winner ? () => handleMoveClick(5) : null
+          }
+          className={
+            moves[5].move === -1
+              ? `grid-item-hover grid-item bottom right`
+              : `grid-item bottom right`
+          }
+        >
+          {moves[5].move !== -1 ? (moves[5].myMove ? "0" : "X") : null}
+        </div>
+
+        <div
+          onClick={
+            moves[6].move === -1 && !winner ? () => handleMoveClick(6) : null
+          }
+          className={
+            moves[6].move === -1
+              ? `grid-item-hover grid-item bottom`
+              : `grid-item bottom`
+          }
+        >
+          {moves[6].move !== -1 ? (moves[6].myMove ? "0" : "X") : null}
+        </div>
+
+        <div
+          onClick={
+            moves[7].move === -1 && !winner ? () => handleMoveClick(7) : null
+          }
+          className={
+            moves[7].move === -1
+              ? `grid-item-hover grid-item right`
+              : `grid-item right`
+          }
+        >
+          {moves[7].move !== -1 ? (moves[7].myMove ? "0" : "X") : null}
+        </div>
+
+        <div
+          onClick={
+            moves[8].move === -1 && !winner ? () => handleMoveClick(8) : null
+          }
+          className={
+            moves[8].move === -1
+              ? `grid-item-hover grid-item right`
+              : `grid-item right`
+          }
+        >
+          {moves[8].move !== -1 ? (moves[8].myMove ? "0" : "X") : null}
+        </div>
+
+        <div
+          onClick={
+            moves[9].move === -1 && !winner ? () => handleMoveClick(9) : null
+          }
+          className={
+            moves[9].move === -1 ? `grid-item-hover grid-item` : `grid-item`
+          }
+        >
+          {moves[9].move !== -1 ? (moves[9].myMove ? "0" : "X") : null}
+        </div>
+      </div>
+
+      {loading ? <div className="loading">{loadingValue}</div> : null}
+
+      {userTurn ? (
+        <div className="loading">{`Wiating for oponent's response`}</div>
+      ) : null}
+
+      {gameEnd ? (
+        <div className="game-end">
+          {!leaveRoom ? (
+            <button onClick={handlePlayAgain} className="room-btn">
+              Play Again
+            </button>
+          ) : null}
+
+          <form onSubmit={handleClose} action="/">
+            <button className="room-btn">Close</button>
+          </form>
+        </div>
+      ) : null}
+    </div>
+  );
 };
 
 export default GamePage;
