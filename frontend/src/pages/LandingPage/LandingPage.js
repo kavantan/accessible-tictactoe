@@ -29,21 +29,31 @@ const LandingPage = () => {
   };
 
   return (
-    <div className={styles.home}>
+    <main className={styles.home}>
       <h1>Accessible Tic Tac Toe</h1>
       {error.length > 0 ? <p className={styles.error}>{error}</p> : null}
 
       {!show ? (
         <>
+          <label className={styles["enter-your-name"]} htmlFor="name-input">
+            Enter your name:
+          </label>
           <input
+            id="name-input"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             className={styles["name-input"]}
             type="text"
             placeholder="Enter your name"
+            aria-label="Enter your name"
+            required
           />
-          <button className={styles["room-btn"]} onClick={handleClick}>
-            Let's Go
+          <button
+            className={styles["room-btn"]}
+            onClick={handleClick}
+            aria-label="Continue"
+          >
+            Continue
           </button>
         </>
       ) : null}
@@ -52,15 +62,19 @@ const LandingPage = () => {
         <div className={styles.show}>
           <div className={styles["room-btns"]}>
             <Link to="/createroom">
-              <button className={styles["room-btn"]}>Create a Room</button>
+              <button className={styles["room-btn"]} aria-label="Create a Room">
+                Create a Room
+              </button>
             </Link>
             <Link to="/joinroom">
-              <button className={styles["room-btn"]}>Join a Room</button>
+              <button className={styles["room-btn"]} aria-label="Join a Room">
+                Join a Room
+              </button>
             </Link>
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 
