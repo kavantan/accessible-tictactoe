@@ -52,7 +52,9 @@ By generating pseudo-random room IDs, users who wish to play tictactoe with each
 
 ### Screenreader Accessibility
 
-By adding aria labels (and roles) to HTML elements, screenreader devices are able to narrate over the elements of the webpage.
+By adding aria labels (and roles) to HTML elements, screenreader devices are able to narrate over the elements of the webpage. Here's a demonstration:
+
+https://user-images.githubusercontent.com/83890525/218776005-86b5b99b-a1ba-4eb5-999c-a4987f4c3778.mp4
 
 ### Colour Contrast
 
