@@ -78,11 +78,13 @@ const GamePage = ({ socket }) => {
         setOponentName(data.user2.username);
       }
       setLoading(false);
+      // console.log(data);
     });
   }, [socket, user, params.roomId]);
 
   useEffect(() => {
     setRoomId(params.roomId);
+    // console.log(params.roomId);
   }, [params.roomId]);
 
   const handleMoveClick = (m) => {
@@ -104,6 +106,7 @@ const GamePage = ({ socket }) => {
 
   useEffect(() => {
     socket.on("move", (payload) => {
+      // console.log(payload);
       setMove({ move: payload.move, myMove: payload.userId === user.userId });
       setAllMoves([...allMoves, move]);
 
@@ -116,6 +119,7 @@ const GamePage = ({ socket }) => {
     });
 
     socket.on("win", (payload) => {
+      // console.log("WINNER WINNER WINNER!!! ",payload);
       setGameEnd(true);
       if (payload.userId === user.userId) {
         setWinner("You won!");
@@ -130,6 +134,7 @@ const GamePage = ({ socket }) => {
     });
 
     socket.on("draw", (payload) => {
+      // console.log("DRAW DRAW DRAW!!! ",payload);
       setWinner("Draw !");
       setGameEnd(true);
       setUserTurn(false);
@@ -150,6 +155,7 @@ const GamePage = ({ socket }) => {
     });
 
     socket.on("removeRoom", (payload) => {
+      // console.log("removeRoom",payload);
       setUserJoined(false);
       setLeaveRoom(true);
     });
@@ -157,6 +163,7 @@ const GamePage = ({ socket }) => {
 
   useEffect(() => {
     socket.on("userLeave", (payload) => {
+      console.log("userLeave", payload);
       setLoadingValue("");
       setLoadingValue(`${oponentName} left the game`);
       setLoading(true);
