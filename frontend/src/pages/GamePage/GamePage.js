@@ -41,7 +41,7 @@ const GamePage = ({ socket }) => {
   const [loading, setLoading] = useState(true);
 
   const [loadingValue, setLoadingValue] = useState(
-    "waiting for another player..."
+    "Waiting for another player..."
   );
 
   const [userJoined, setUserJoined] = useState(false);
