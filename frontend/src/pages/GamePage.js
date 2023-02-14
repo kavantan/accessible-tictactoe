@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./GamePage.css";
 
-import io from "socket.io-client";
-const socket = io("http://localhost:4000");
-
-function GamePage() {
+function GamePage({ socket }) {
   const [game, setGame] = useState(Array(9).fill(""));
   const [turnNumber, setTurnNumber] = useState(0);
   const [myTurn, setMyTurn] = useState(true);

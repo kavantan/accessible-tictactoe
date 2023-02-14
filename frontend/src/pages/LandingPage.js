@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const LandingPage = () => {
+const LandingPage = ({ socket }) => {
   return (
     <div>
       <div>

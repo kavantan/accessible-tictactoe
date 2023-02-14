@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-const JoinRoomPage = () => {
+const JoinRoomPage = ({ socket }) => {
   const [userName, setUserName] = useState("");
   const [roomName, setRoomName] = useState("");
 
   return (
     <div>
       <h1>Join A Room</h1>
-      <form onSubmit={handleSubmit}>
+      <form>
         <input
           type="text"
           placeholder="Your Name"
