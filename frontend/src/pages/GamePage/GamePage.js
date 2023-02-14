@@ -179,10 +179,10 @@ const GamePage = ({ socket }) => {
   return (
     <div className={styles.game}>
       <h2>Tic Tac Toe</h2>
-      <p>Room ID: {roomId}</p>
+      <p className={styles.roomid}>Room ID: {roomId}</p>
       <div className={styles.score}>
-        <p>You: {myScore}</p>
-        <p>
+        <p className={styles.myscore}>You: {myScore}</p>
+        <p className={styles.opponentscore}>
           {oponentName}: {oponentScore}
         </p>
       </div>
