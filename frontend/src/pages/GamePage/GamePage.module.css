@@ -79,11 +79,14 @@ h2 {
 
 /* styles for loading */
 .loading {
+  width: 280px;
+  height: 280px;
+  background: #61dafb00;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
-  font-weight: bold;
+  /* border: 1px solid red; */
 }
 
 /* styles for game end */

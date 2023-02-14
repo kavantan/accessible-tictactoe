@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styles from "./GamePage.module.css";
@@ -89,6 +89,7 @@ const GamePage = ({ socket }) => {
 
   const handleMoveClick = (m) => {
     if (loading && !userJoined) {
+      console.log("test");
       return;
     }
 
@@ -106,7 +107,6 @@ const GamePage = ({ socket }) => {
 
   useEffect(() => {
     socket.on("move", (payload) => {
-      // console.log(payload);
       setMove({ move: payload.move, myMove: payload.userId === user.userId });
       setAllMoves([...allMoves, move]);
 
