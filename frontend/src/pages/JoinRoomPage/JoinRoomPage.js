@@ -46,24 +46,38 @@ const JoinRoom = ({ socket }) => {
   });
 
   return (
-    <div className={styles["join-room"]}>
-      <h1 className={styles["join-room-header"]}>Join Game</h1>
+    <div className={styles["join-room"]} role="main">
+      <h1 className={styles["join-room-header"]} id="join-room-heading">
+        Join Game
+      </h1>
 
       <div className={styles["join-room-container"]}>
         <div className={styles["url-container"]}>
-          {error.length > 0 ? <p className={styles["error"]}>{error}</p> : null}
+          {error.length > 0 ? (
+            <p className={styles["error"]} id="join-room-error">
+              {error}
+            </p>
+          ) : null}
 
+          <label htmlFor="room-id" className={styles["label"]}>
+            Enter room ID:
+          </label>
           <input
+            id="room-id"
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
             className={styles["name-input"]}
             type="text"
+            aria-describedby="join-room-error"
+            aria-invalid={error.length > 0}
           />
 
           <button
             disabled={joined}
             onClick={handleClick}
             className={`${styles["room-btn"]} ${styles["copy-btn"]}`}
+            aria-describedby="join-room-status"
+            aria-disabled={joined}
           >
             {joined ? "Joined" : "Join"}
           </button>
