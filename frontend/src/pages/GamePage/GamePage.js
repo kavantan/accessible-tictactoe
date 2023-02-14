@@ -192,7 +192,11 @@ const GamePage = ({ socket }) => {
         </div>
       ) : null}
 
-      <div className={styles["grid-container"]}>
+      <div
+        className={styles["grid-container"]}
+        role="grid"
+        aria-labelledby="game-title"
+      >
         <div
           onClick={
             moves[1].move === -1 && !winner ? () => handleMoveClick(1) : null
@@ -202,6 +206,15 @@ const GamePage = ({ socket }) => {
               ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom} ${styles.right}`
               : `${styles["grid-item"]} ${styles.bottom} ${styles.right}`
           }
+          role="button"
+          aria-pressed={moves[1].move !== -1}
+          aria-label={`Position 1, ${
+            moves[1].move !== -1
+              ? moves[1].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[1].move !== -1 ? (moves[1].myMove ? "0" : "X") : null}
         </div>
@@ -215,6 +228,15 @@ const GamePage = ({ socket }) => {
               ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom} ${styles.right}`
               : `${styles["grid-item"]} ${styles.bottom} ${styles.right}`
           }
+          role="button"
+          aria-pressed={moves[2].move !== -1}
+          aria-label={`Position 2, ${
+            moves[2].move !== -1
+              ? moves[2].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[2].move !== -1 ? (moves[2].myMove ? "0" : "X") : null}
         </div>
@@ -228,6 +250,15 @@ const GamePage = ({ socket }) => {
               ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom}`
               : `${styles["grid-item"]} ${styles.bottom}`
           }
+          role="button"
+          aria-pressed={moves[3].move !== -1}
+          aria-label={`Position 3, ${
+            moves[3].move !== -1
+              ? moves[3].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[3].move !== -1 ? (moves[3].myMove ? "0" : "X") : null}
         </div>
@@ -238,9 +269,18 @@ const GamePage = ({ socket }) => {
           }
           className={
             moves[4].move === -1
-              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom} ${styles.right}`
-              : `${styles["grid-item"]} ${styles.bottom} ${styles.right}`
+              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom}`
+              : `${styles["grid-item"]} ${styles.bottom}`
           }
+          role="button"
+          aria-pressed={moves[4].move !== -1}
+          aria-label={`Position 4, ${
+            moves[4].move !== -1
+              ? moves[4].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[4].move !== -1 ? (moves[4].myMove ? "0" : "X") : null}
         </div>
@@ -251,9 +291,18 @@ const GamePage = ({ socket }) => {
           }
           className={
             moves[5].move === -1
-              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom} ${styles.right}`
-              : `${styles["grid-item"]} ${styles.bottom} ${styles.right}`
+              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom}`
+              : `${styles["grid-item"]} ${styles.bottom}`
           }
+          role="button"
+          aria-pressed={moves[5].move !== -1}
+          aria-label={`Position 5, ${
+            moves[5].move !== -1
+              ? moves[5].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[5].move !== -1 ? (moves[5].myMove ? "0" : "X") : null}
         </div>
@@ -267,6 +316,15 @@ const GamePage = ({ socket }) => {
               ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom}`
               : `${styles["grid-item"]} ${styles.bottom}`
           }
+          role="button"
+          aria-pressed={moves[6].move !== -1}
+          aria-label={`Position 6, ${
+            moves[6].move !== -1
+              ? moves[6].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[6].move !== -1 ? (moves[6].myMove ? "0" : "X") : null}
         </div>
@@ -277,22 +335,40 @@ const GamePage = ({ socket }) => {
           }
           className={
             moves[7].move === -1
-              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.right}`
-              : `${styles["grid-item"]} ${styles.right}`
+              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom}`
+              : `${styles["grid-item"]} ${styles.bottom}`
           }
+          role="button"
+          aria-pressed={moves[7].move !== -1}
+          aria-label={`Position 7, ${
+            moves[7].move !== -1
+              ? moves[7].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[7].move !== -1 ? (moves[7].myMove ? "0" : "X") : null}
         </div>
 
         <div
           onClick={
-            moves[8].move === -1 && !winner ? () => handleMoveClick(8) : null
+            moves[8].move === -1 && !winner ? () => handleMoveClick(7) : null
           }
           className={
             moves[8].move === -1
-              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.right}`
-              : `${styles["grid-item"]} ${styles.right}`
+              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom}`
+              : `${styles["grid-item"]} ${styles.bottom}`
           }
+          role="button"
+          aria-pressed={moves[8].move !== -1}
+          aria-label={`Position 8, ${
+            moves[8].move !== -1
+              ? moves[8].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[8].move !== -1 ? (moves[8].myMove ? "0" : "X") : null}
         </div>
@@ -303,24 +379,40 @@ const GamePage = ({ socket }) => {
           }
           className={
             moves[9].move === -1
-              ? `${styles["grid-item-hover"]} ${styles["grid-item"]}`
-              : `${styles["grid-item"]}`
+              ? `${styles["grid-item-hover"]} ${styles["grid-item"]} ${styles.bottom}`
+              : `${styles["grid-item"]} ${styles.bottom}`
           }
+          role="button"
+          aria-pressed={moves[9].move !== -1}
+          aria-label={`Position 9, ${
+            moves[9].move !== -1
+              ? moves[9].myMove
+                ? "Your move"
+                : "Opponent's move"
+              : "Empty"
+          }`}
         >
           {moves[9].move !== -1 ? (moves[9].myMove ? "0" : "X") : null}
         </div>
       </div>
 
-      {loading ? <div className={styles.loading}>{loadingValue}</div> : null}
+      {loading ? (
+        <div className={styles.loading} role="status" aria-live="polite">
+          {loadingValue}
+        </div>
+      ) : null}
 
       {userTurn ? (
         <div
           className={styles.loading}
-        >{`Waiting for opponent's response`}</div>
+          role="status"
+          aria-live="polite"
+          aria-label="Waiting for opponent's response"
+        ></div>
       ) : null}
 
       {gameEnd ? (
-        <div className={styles.gameEnd}>
+        <div className={styles.gameEnd} role="alert">
           {!leaveRoom ? (
             <button onClick={handlePlayAgain} className={styles.roomBtn}>
               Play Again
