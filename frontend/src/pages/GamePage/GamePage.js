@@ -152,8 +152,7 @@ const GamePage = ({ socket }) => {
         m.myMove = false;
       });
       setWinner("");
-
-      setUserTurn(user.userId !== winnerId);
+      setUserTurn(false);
       setGameEnd(false);
     });
 
@@ -412,7 +411,7 @@ const GamePage = ({ socket }) => {
 
         <div
           onClick={
-            moves[8].move === -1 && !winner ? () => handleMoveClick(7) : null
+            moves[8].move === -1 && !winner ? () => handleMoveClick(8) : null
           }
           className={
             moves[8].move === -1
