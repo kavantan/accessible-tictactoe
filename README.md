@@ -25,7 +25,7 @@ To Visit App:
 `localhost:3000/`
 
 You should see something like this:
-[Ui](docs/images/Ui.png)
+![Ui](docs/images/Ui.png)
 
 ### Server Side
 
@@ -42,7 +42,7 @@ To Start Server:
 `npm start`
 
 You should see something like this:
-[Server](docs/images/Server.png)
+![Server](docs/images/Server.png)
 
 ## Design Decisions
 
