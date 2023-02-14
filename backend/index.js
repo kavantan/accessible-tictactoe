@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
 
     socket.join(user.roomId);
 
-    socket.emit("message", "Welcome to ChatCord!");
+    socket.emit("message", "Welcome to Accessible Tic Tac Toe!");
 
     const current_room = getGameDetail(user.roomId);
   });
@@ -74,11 +74,11 @@ io.on("connection", (socket) => {
 
     socket.join(user.roomId);
 
-    socket.emit("message", "Welcome to ChatCord!");
+    socket.emit("message", "Welcome to Accessible Tic Tac Toe!");
 
     socket
       .to(payload.roomId)
-      .emit("userJoined", `${payload.username} has joined the chat`);
+      .emit("userJoined", `${payload.username} has joined the room`);
 
     return;
   });
