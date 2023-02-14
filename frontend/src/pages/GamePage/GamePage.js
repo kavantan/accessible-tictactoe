@@ -48,6 +48,8 @@ const GamePage = ({ socket }) => {
 
   const [userTurn, setUserTurn] = useState(false);
 
+  const [isX, setIsX] = useState(false);
+
   const [oponentName, setOponentName] = useState("");
 
   const [move, setMove] = useState();
@@ -76,6 +78,7 @@ const GamePage = ({ socket }) => {
         setOponentName(data.user1.username);
       } else {
         setOponentName(data.user2.username);
+        setIsX(true);
       }
       setLoading(false);
       // console.log(data);
@@ -216,7 +219,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[1].move !== -1 ? (moves[1].myMove ? "0" : "X") : null}
+          {moves[1].move !== -1
+            ? moves[1].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
 
         <div
@@ -238,7 +249,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[2].move !== -1 ? (moves[2].myMove ? "0" : "X") : null}
+          {moves[2].move !== -1
+            ? moves[2].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
 
         <div
@@ -260,7 +279,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[3].move !== -1 ? (moves[3].myMove ? "0" : "X") : null}
+          {moves[3].move !== -1
+            ? moves[3].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
 
         <div
@@ -282,7 +309,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[4].move !== -1 ? (moves[4].myMove ? "0" : "X") : null}
+          {moves[4].move !== -1
+            ? moves[4].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
 
         <div
@@ -304,7 +339,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[5].move !== -1 ? (moves[5].myMove ? "0" : "X") : null}
+          {moves[5].move !== -1
+            ? moves[5].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
 
         <div
@@ -326,7 +369,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[6].move !== -1 ? (moves[6].myMove ? "0" : "X") : null}
+          {moves[6].move !== -1
+            ? moves[6].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
 
         <div
@@ -348,7 +399,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[7].move !== -1 ? (moves[7].myMove ? "0" : "X") : null}
+          {moves[7].move !== -1
+            ? moves[7].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
 
         <div
@@ -370,7 +429,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[8].move !== -1 ? (moves[8].myMove ? "0" : "X") : null}
+          {moves[8].move !== -1
+            ? moves[8].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
 
         <div
@@ -392,7 +459,15 @@ const GamePage = ({ socket }) => {
               : "Empty"
           }`}
         >
-          {moves[9].move !== -1 ? (moves[9].myMove ? "0" : "X") : null}
+          {moves[9].move !== -1
+            ? moves[9].myMove
+              ? isX
+                ? "X"
+                : "0"
+              : isX
+              ? "0"
+              : "X"
+            : null}
         </div>
       </div>
 
