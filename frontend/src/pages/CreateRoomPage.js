@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./CreateRoomPage.css";
 
+const roomId = nanoid(7);
+
 const CreateRoom = ({ socket }) => {
   const { user } = useSelector((state) => state.user);
 
   const [copyBtnValue, setCopyBtnValue] = useState("Copy");
   const [copied, setCopied] = useState(false);
-
-  const roomId = nanoid(7);
 
   useEffect(() => {
     if (!user) {
@@ -24,7 +24,7 @@ const CreateRoom = ({ socket }) => {
       userId: user.userId,
       roomId,
     });
-  }, [socket, roomId, user.userId, user.userName]);
+  }, [socket, user.userId, user.userName]);
 
   useEffect(() => {
     socket.on("message", (payload) => {
