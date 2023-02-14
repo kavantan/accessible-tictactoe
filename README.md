@@ -25,6 +25,7 @@ To Visit App:
 `localhost:3000/`
 
 You should see something like this:
+
 ![Ui](docs/images/Ui.png)
 
 ### Server Side
@@ -42,13 +43,14 @@ To Start Server:
 `npm start`
 
 You should see something like this:
+
 ![Server](docs/images/Server.png)
 
 ## Design Decisions
 
-### Creating and Joining Room
+### Usage of Socket.IO
 
-By generating pseudo-random room IDs, users who wish to play tictactoe with each other are able to join the same private room and play one (or more) game(s).
+When coming up with the hierarchical design of this project, I was debating between the use of Socket.IO and Google Firebase's backend service. I eventually decided to use Socket.IO because of two reasons. Firstly, upon doing my research, Socket.IO is built for real-time bidirectional communication between client and server, so in a sense it is very well suited for real-time applications such as this one. Secondly, I have not used Socket.IO before, so I was intrigued to pick up this new technology. However, I do admit that Firebase's persistent data storage would definitely be an very helpful in enhancing this project (Storing past games) but I will leave that to a future iteration.
 
 ### Screenreader Accessibility
 
@@ -59,6 +61,12 @@ https://user-images.githubusercontent.com/83890525/218776005-86b5b99b-a1ba-4eb5-
 ### Colour Contrast
 
 By ensuring that the contrast ratio between text and background is high enough, allows texts to be read more easily.
+
+## Plans for Future Iterations
+
+1. Fully implement keyboard accessibility. As of right now, the tictactoe multiplayer game is not fully keyboard-integrated. In the near future, I will continue attempting to fully integrate the keyboard accessibilty into the webpage (especially for the gameplay).
+
+2. Implement a 'match history'. As of right now, sign-ins are anonymous, and there is no means to store the past games played. In the near future, I will try using Google Firebase's database API to store credentials and player information (such as match history).
 
 ## Author
 
