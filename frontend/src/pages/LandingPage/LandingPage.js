@@ -35,7 +35,9 @@ const LandingPage = () => {
 
       {!show ? (
         <>
-          <label htmlFor="name-input">Enter your name:</label>
+          <label className={styles["enter-your-name"]} htmlFor="name-input">
+            Enter your name:
+          </label>
           <input
             id="name-input"
             value={userName}
